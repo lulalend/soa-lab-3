@@ -1,0 +1,30 @@
+.container {
+    color: var(--secondary-text);
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title {
+    font-weight: 500;
+    color: var(--primary-text);
+}
+
+.icon {
+    height: 14px;
+    width: 14px;
+}
+
+.icon.green {
+    fill: var(--accent-green-text);
+}
+.icon.blue {
+    fill: var(--accent-text);
+}
+.icon.action {
+    margin-left: 4px;
+    cursor: pointer;
+}
+.icon.danger {
+    fill: var(--danger-text);
+}

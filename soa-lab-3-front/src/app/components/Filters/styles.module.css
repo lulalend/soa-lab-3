@@ -1,0 +1,40 @@
+.container {
+    position: absolute;
+    top: 50px;
+    right: 225px;
+    z-index: 15;
+    width: 400px;
+    height: fit-content;
+    background-color: var(--foreground);
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: var(--shadow) 0 0 10px;
+}
+
+.title {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon {
+    height: 14px;
+    width: 14px;
+    fill: var(--accent-green-text);
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}

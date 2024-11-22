@@ -1,0 +1,55 @@
+.container {
+    background-color: var(--foreground);
+    border-radius: 16px;
+    box-shadow: var(--shadow) 0 0 15px;
+    width: fit-content;
+
+    padding: 16px;
+    margin-top: 24px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 32px;
+}
+
+.title {
+    margin-top: 8px;
+}
+
+.icon {
+    height: 16px;
+    width: 16px;
+}
+
+.icon.green {
+    fill: var(--accent-green-text);
+}
+.icon.blue {
+    fill: var(--accent-text);
+}
+.icon.danger {
+    fill: var(--danger-text);
+}
+
+.json {
+    min-height: 200px;
+    width: 400px;
+    height: fit-content;
+
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    padding: 4px 8px;
+
+    overflow: scroll;
+}
+
+.select {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    margin-bottom: 12px;
+}

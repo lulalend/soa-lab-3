@@ -1,0 +1,24 @@
+.container {
+    margin-right: 16px;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 8px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 8px;
+}
+
+.icon {
+    height: 16px;
+    width: 16px;
+}

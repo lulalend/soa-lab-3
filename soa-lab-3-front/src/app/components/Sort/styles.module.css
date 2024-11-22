@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    row-gap: -4px;
+}
+
+.sort {
+    height: 14px;
+    width: 14px;
+    fill: var(--secondary-text-unfocused);
+}
+
+.sort.desc {
+    fill: var(--active);
+    rotate: 180deg;
+}
+
+.sort.asc {
+    fill: var(--active);
+}

@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: music-band
+  datasource:
+#    username: postgres
+#    password: postgres
+#    url: jdbc:postgresql://localhost:5432/postgres
+    username: s335093
+    password: QPOw5zRMGkZP6df6
+    url: jdbc:postgresql://localhost:5432/studs
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 1111
+  ssl:
+    enabled: true
+    key-store: classpath:static/server.keystore.p12
+    key-store-password: DashaYana
+    key-store-type: PKCS12
+    key-alias: main-server

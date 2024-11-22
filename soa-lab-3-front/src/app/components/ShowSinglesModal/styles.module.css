@@ -1,0 +1,43 @@
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list li {
+    padding: 8px 12px;
+    background-color: var(--background);
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+.singleContainer {
+    display: grid;
+    grid-template-columns: 60px 1fr 30px;
+    align-items: center;
+}
+
+.edit {
+    justify-self: flex-end;
+    height: 14px;
+    width: 14px;
+    cursor: pointer;
+}
+
+.icon {
+    height: 14px;
+    width: 14px;
+    fill: var(--accent-green-text);
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addSingle {
+    margin-top: 16px;
+}
+

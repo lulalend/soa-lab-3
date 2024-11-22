@@ -1,0 +1,22 @@
+.table {
+    background-color: var(--foreground);
+    border-radius: 16px;
+    box-shadow: var(--shadow) 0 0 15px;
+    width: fit-content;
+}
+
+.empty {
+    width: 100%;
+    text-wrap: balance;
+    text-align: center;
+    height: 200px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty span {
+    width: 400px;
+}
