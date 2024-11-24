@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  front:
+    build:
+      context: ./soa-lab-3-front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - main-service
+      - grammy-service
+  
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: music_band
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  main-service:
+    build:
+      context: ./soa-lab-3-back/main-service
+    ports:
+      - "1111:1111"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/music_band
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      SERVER_SSL_ENABLED: true
+      SERVER_SSL_KEY_STORE: classpath:static/server.keystore.p12
+      SERVER_SSL_KEY_STORE_PASSWORD: DashaYana
+      SERVER_SSL_KEY_ALIAS: main-server
+    depends_on:
+      - db
+
+  grammy-service:
+    build:
+      context: ./soa-lab-3-back/grammy-service
+    ports:
+      - "1112:1112"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/music_band
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      MAIN_SERVICE_URL: http://main-service:1111
+    depends_on:
+      - db
+      - main-service
+
+volumes:
+  db-data:
