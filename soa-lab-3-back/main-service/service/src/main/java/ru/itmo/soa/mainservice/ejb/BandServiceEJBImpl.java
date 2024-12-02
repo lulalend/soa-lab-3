@@ -1,13 +1,8 @@
-package ru.itmo.soa.mainservice.services;
+package ru.itmo.soa.mainservice.ejb;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import ru.itmo.soa.mainservice.exceptions.InvalidParameterException;
 import ru.itmo.soa.mainservice.exceptions.ResourceNotFoundException;
 import ru.itmo.soa.mainservice.model.Band;
@@ -19,21 +14,29 @@ import ru.itmo.soa.mainservice.model.dto.BandsInfoResponse;
 import ru.itmo.soa.mainservice.repositories.BandRepository;
 import ru.itmo.soa.mainservice.repositories.BandSpecifications;
 
-import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import ru.itmo.soa.mainservice.services.PersonService;
+import ru.itmo.soa.mainservice.services.SingleService;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class BandService {
-    @Autowired
+@Stateless
+public class BandServiceEJBImpl implements BandServiceEJB {
+
+    @Inject
     private BandRepository bandRepository;
 
-    @Autowired
+    @Inject
     private SingleService singleService;
 
-    @Autowired
+    @Inject
     private PersonService personService;
 
     public Band createBand(Band band) {
@@ -141,7 +144,6 @@ public class BandService {
 
         return bandRepository.save(existingBand);
     }
-
 
     public List<MusicGenre> getAllGenres() {
         return Arrays.asList(MusicGenre.values());

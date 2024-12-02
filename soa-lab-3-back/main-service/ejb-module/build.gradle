@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    implementation 'jakarta.ejb:jakarta.ejb-api:4.0.0'
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0'
+}

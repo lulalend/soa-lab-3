@@ -24,7 +24,7 @@ services:
 
   main-service:
     build:
-      context: ./soa-lab-3-back/main-service
+      context: ./soa-lab-3-back/main-service/service
     ports:
       - "1111:1111"
     environment:
