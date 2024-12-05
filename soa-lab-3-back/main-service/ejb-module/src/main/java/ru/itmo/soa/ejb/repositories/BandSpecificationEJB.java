@@ -1,4 +1,4 @@
-package ru.itmo.soa.ejb;
+package ru.itmo.soa.ejb.repositories;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

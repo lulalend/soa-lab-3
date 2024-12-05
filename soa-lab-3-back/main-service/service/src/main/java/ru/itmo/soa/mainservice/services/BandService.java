@@ -2,7 +2,7 @@ package ru.itmo.soa.mainservice.services;
 
 import jakarta.ejb.EJB;
 import org.springframework.stereotype.Service;
-import ru.itmo.soa.ejb.BandServiceEJB;
+import ru.itmo.soa.ejb.services.BandServiceEJB;
 import ru.itmo.soa.ejb.model.Band;
 import ru.itmo.soa.ejb.model.MusicGenre;
 import ru.itmo.soa.ejb.model.Person;

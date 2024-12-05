@@ -1,19 +1,20 @@
-package ru.itmo.soa.mainservice.services;
+package ru.itmo.soa.ejb.services;
 
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.itmo.soa.mainservice.model.Person;
-import ru.itmo.soa.mainservice.repositories.PersonRepository;
+import ru.itmo.soa.ejb.repositories.PersonRepositoryEJB;
+import ru.itmo.soa.ejb.model.Person;
 
 import java.util.Optional;
 
-@Service
-public class PersonService {
-    @Autowired
-    private PersonRepository personRepository;
+@Stateless
+public class PersonServiceEJB {
+    @Inject
+    private PersonRepositoryEJB personRepository;
 
-    public Person save(Person person) {
+    @Transactional
+    public Person createPerson(Person person) {
         Optional<Person> existingPerson = personRepository.findByPassportID(person.getPassportID());
 
         if (existingPerson.isPresent()) {

@@ -1,9 +1,10 @@
-package ru.itmo.soa.ejb;
+package ru.itmo.soa.ejb.services;
 
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import ru.itmo.soa.ejb.repositories.BandRepositoryEJB;
 import ru.itmo.soa.ejb.exceptions.ResourceNotFoundException;
 import ru.itmo.soa.ejb.model.Band;
 import ru.itmo.soa.ejb.model.MusicGenre;
@@ -26,10 +27,10 @@ public class BandServiceEJB {
     private BandRepositoryEJB bandRepository;
 
     @Inject
-    private SingleService singleService;
+    private SingleServiceEJB singleService;
 
     @Inject
-    private PersonService personService;
+    private PersonServiceEJB personService;
 
     public Band saveBand(Band band) {
         band.setCreationDate(OffsetDateTime.now());

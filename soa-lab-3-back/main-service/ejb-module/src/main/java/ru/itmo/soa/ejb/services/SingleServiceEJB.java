@@ -1,19 +1,17 @@
-package ru.itmo.soa.mainservice.services;
+package ru.itmo.soa.ejb.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.itmo.soa.mainservice.exceptions.ResourceNotFoundException;
-import ru.itmo.soa.mainservice.model.Person;
-import ru.itmo.soa.mainservice.model.Single;
-import ru.itmo.soa.mainservice.repositories.SingleRepository;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+import ru.itmo.soa.ejb.repositories.SingleRepositoryEJB;
+import ru.itmo.soa.ejb.exceptions.ResourceNotFoundException;
+import ru.itmo.soa.ejb.model.Single;
 
 import java.util.Optional;
 
-@Service
-public class SingleService {
-
-    @Autowired
-    private SingleRepository singleRepository;
+@Stateless
+public class SingleServiceEJB {
+    @Inject
+    private SingleRepositoryEJB singleRepository;
 
     public Single updateSingle(Long singleId, Single updatedSingle) {
         Single existingSingle = singleRepository.findById(singleId)
@@ -36,4 +34,3 @@ public class SingleService {
         }
     }
 }
-

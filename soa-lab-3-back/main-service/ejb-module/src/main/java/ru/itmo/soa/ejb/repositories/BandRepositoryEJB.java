@@ -1,4 +1,4 @@
-package ru.itmo.soa.ejb;
+package ru.itmo.soa.ejb.repositories;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -63,7 +63,7 @@ public class BandRepositoryEJB {
         // Используем COUNT для подсчета записей
         countQuery.select(cb.count(root)).where(filteredQuery.getRestriction());
 
-        return entityManager.createQuery(countQuery).getSingleResult();
+        return Math.toIntExact(entityManager.createQuery(countQuery).getSingleResult());
     }
 
     public List<Band> findBySpecificationAndSort(String[] filters, String[] sort, int page, int size) {
