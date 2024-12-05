@@ -1,4 +1,4 @@
-package ru.itmo.soa.mainservice.model;
+package ru.itmo.soa.ejb.model;
 
 
 import jakarta.persistence.*;

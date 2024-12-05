@@ -1,4 +1,4 @@
-package ru.itmo.soa.mainservice.model;
+package ru.itmo.soa.ejb.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Entity
 @Data

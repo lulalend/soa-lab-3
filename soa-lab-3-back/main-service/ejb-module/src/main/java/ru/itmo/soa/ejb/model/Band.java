@@ -1,4 +1,4 @@
-package ru.itmo.soa.mainservice.model;
+package ru.itmo.soa.ejb.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

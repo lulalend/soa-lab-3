@@ -15,6 +15,11 @@ bootJar {
     archiveFileName = 'app.jar'
 }
 
+bootWar {
+    archiveFileName = 'service-app.war'
+    mainClass = 'ru.itmo.soa.mainservice.MainServiceApplication'  // Указываем основной класс для Spring Boot
+}
+
 dependencies {
     implementation project(':ejb-module') // Зависимость на ejb-module
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

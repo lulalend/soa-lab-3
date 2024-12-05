@@ -1,7 +1,7 @@
-package ru.itmo.soa.mainservice.model.dto;
+package ru.itmo.soa.ejb.model.dto;
 
 import lombok.Data;
-import ru.itmo.soa.mainservice.model.Band;
+import ru.itmo.soa.ejb.model.Band;
 
 import java.util.List;
 

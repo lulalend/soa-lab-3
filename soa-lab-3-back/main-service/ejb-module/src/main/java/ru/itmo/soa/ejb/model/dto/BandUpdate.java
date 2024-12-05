@@ -1,10 +1,10 @@
-package ru.itmo.soa.mainservice.model.dto;
+package ru.itmo.soa.ejb.model.dto;
 
 import lombok.Data;
-import ru.itmo.soa.mainservice.model.Coordinates;
-import ru.itmo.soa.mainservice.model.MusicGenre;
-import ru.itmo.soa.mainservice.model.Person;
-import ru.itmo.soa.mainservice.model.Single;
+import ru.itmo.soa.ejb.model.Coordinates;
+import ru.itmo.soa.ejb.model.MusicGenre;
+import ru.itmo.soa.ejb.model.Person;
+import ru.itmo.soa.ejb.model.Single;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person createPerson(Person person) {
+    public Person save(Person person) {
         Optional<Person> existingPerson = personRepository.findByPassportID(person.getPassportID());
 
         if (existingPerson.isPresent()) {
@@ -38,5 +38,4 @@ public class PersonService {
             personRepository.save(person);
         }
     }
-
 }
