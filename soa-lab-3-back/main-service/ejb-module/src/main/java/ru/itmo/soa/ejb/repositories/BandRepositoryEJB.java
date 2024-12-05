@@ -1,8 +1,11 @@
 package ru.itmo.soa.ejb.repositories;
 
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Stateful;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -13,11 +16,10 @@ import ru.itmo.soa.ejb.model.MusicGenre;
 import java.util.List;
 import java.util.Optional;
 
-
-@Stateless
+@Stateful
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class BandRepositoryEJB {
-
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     public Band create(Band band) {

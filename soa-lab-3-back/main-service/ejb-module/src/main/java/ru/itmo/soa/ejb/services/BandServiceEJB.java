@@ -1,6 +1,5 @@
 package ru.itmo.soa.ejb.services;
 
-import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -20,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Stateless
-@Remote
-public class BandServiceEJB {
+public class BandServiceEJB implements BandServiceIEJB {
 
     @Inject
     private BandRepositoryEJB bandRepository;

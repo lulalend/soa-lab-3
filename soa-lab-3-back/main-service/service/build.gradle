@@ -15,14 +15,8 @@ bootJar {
     archiveFileName = 'app.jar'
 }
 
-bootWar {
-    archiveFileName = 'service-app.war'
-    mainClass = 'ru.itmo.soa.mainservice.MainServiceApplication'  // Указываем основной класс для Spring Boot
-}
-
 dependencies {
-    implementation project(':ejb-module') // Зависимость на ejb-module
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//    implementation project(':ejb-module') // Зависимость на ejb-module
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.3'
@@ -31,6 +25,7 @@ dependencies {
     implementation 'org.springframework:spring-web:6.1.13'
     implementation 'jakarta.ejb:jakarta.ejb-api:4.0.1'
     implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+    implementation 'org.wildfly.plugins:wildfly-maven-plugin:5.0.1.Final'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

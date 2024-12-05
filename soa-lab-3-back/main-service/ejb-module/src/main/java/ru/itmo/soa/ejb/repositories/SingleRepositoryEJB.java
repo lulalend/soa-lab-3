@@ -1,16 +1,20 @@
 package ru.itmo.soa.ejb.repositories;
 
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Stateful;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
 import ru.itmo.soa.ejb.model.Single;
 
 import java.util.Optional;
 
-@Stateless
+@Stateful
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class SingleRepositoryEJB {
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     public Single save(Single single) {

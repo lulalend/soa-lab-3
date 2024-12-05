@@ -12,15 +12,14 @@ services:
   
   db:
     image: postgres:15
-    container_name: postgres-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: music_band
+      - "POSTGRES_DB=postgres"
+      - "POSTGRES_PASSWORD=postgres"
     ports:
       - "5432:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
+    networks:
+      - soa-network
+    command: ["postgres", "-c", "log_statement=all", "-c", "timezone=UTC"]
 
   main-service:
     build:
@@ -39,6 +38,19 @@ services:
     depends_on:
       - db
 
+  main-service-ejb:
+    build: 
+      context: .
+      dockerfile: ./soa-lab-3-back/main-service/ejb-module/Dockerfile
+    ports:
+      - "9094:8080"
+      - "7500:9990"
+    depends_on:
+      - db
+    networks:
+      - soa-network
+
+
   grammy-service:
     build:
       context: ./soa-lab-3-back/grammy-service
@@ -54,5 +66,6 @@ services:
       - db
       - main-service
 
-volumes:
-  db-data:
+networks:
+  soa-network:
+    driver: bridge

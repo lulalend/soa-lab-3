@@ -2,11 +2,11 @@ package ru.itmo.soa.mainservice.exceptions;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
+//import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.jdbc.BadSqlGrammarException;
+//import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -59,26 +59,26 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String, Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", HttpStatus.BAD_REQUEST.value());
-
-        String message = ex.getMessage();
-
-        if (message.contains("numeric field overflow")) {
-            String overflowField = extractFieldNameFromMessage(message);
-            String overflowValue = extractOverflowValueFromMessage(message);
-            response.put("message", "Value '" + overflowValue + "' for field '" + overflowField + "' is too large and exceeds the allowed precision. Please provide a smaller number.");
-        } else if (message.contains("duplicate key value")) {
-            String fieldName = extractFieldNameFromMessage(message);
-            response.put("message", "Error: Duplicate value for field '" + fieldName + "'. Please use a unique value.");
-        } else {
-            response.put("message", "A database error occurred. Please check your input.");
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    public ResponseEntity<Map<String, Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("code", HttpStatus.BAD_REQUEST.value());
+//
+//        String message = ex.getMessage();
+//
+//        if (message.contains("numeric field overflow")) {
+//            String overflowField = extractFieldNameFromMessage(message);
+//            String overflowValue = extractOverflowValueFromMessage(message);
+//            response.put("message", "Value '" + overflowValue + "' for field '" + overflowField + "' is too large and exceeds the allowed precision. Please provide a smaller number.");
+//        } else if (message.contains("duplicate key value")) {
+//            String fieldName = extractFieldNameFromMessage(message);
+//            response.put("message", "Error: Duplicate value for field '" + fieldName + "'. Please use a unique value.");
+//        } else {
+//            response.put("message", "A database error occurred. Please check your input.");
+//        }
+//
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
@@ -122,13 +122,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BadSqlGrammarException.class)
-    public ResponseEntity<Map<String, Object>> handleBadSqlGrammarException(BadSqlGrammarException e) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", HttpStatus.BAD_REQUEST.value());
-        response.put("message", "SQL syntax error: " + e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(BadSqlGrammarException.class)
+//    public ResponseEntity<Map<String, Object>> handleBadSqlGrammarException(BadSqlGrammarException e) {
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("code", HttpStatus.BAD_REQUEST.value());
+//        response.put("message", "SQL syntax error: " + e.getMessage());
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<Map<String, Object>> handleSQLException(SQLException e) {
