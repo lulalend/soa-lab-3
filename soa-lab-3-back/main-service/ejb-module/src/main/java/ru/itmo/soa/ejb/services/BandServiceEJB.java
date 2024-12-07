@@ -3,6 +3,7 @@ package ru.itmo.soa.ejb.services;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.repositories.BandRepositoryEJB;
 import ru.itmo.soa.ejb.exceptions.ResourceNotFoundException;
 import ru.itmo.soa.ejb.model.Band;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Stateless
+@Pool("ejb-band-pool")
 public class BandServiceEJB implements BandServiceIEJB {
 
     @Inject

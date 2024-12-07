@@ -13,6 +13,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jndi:
+    enabled: true
+    name: java:global/ejb-module-0.0.1-SNAPSHOT/BandServiceEJB!ru.itmo.soa.ejb.services.BandServiceIEJB
 
 server:
   port: 1111
