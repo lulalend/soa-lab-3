@@ -8,11 +8,12 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Data
-public class Person {
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1, message = "ID must be greater than or equal to 1")

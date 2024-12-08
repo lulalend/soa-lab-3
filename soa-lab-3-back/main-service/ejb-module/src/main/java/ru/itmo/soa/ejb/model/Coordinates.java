@@ -6,11 +6,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Data
-public class Coordinates {
+public class Coordinates implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

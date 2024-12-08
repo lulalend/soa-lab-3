@@ -3,6 +3,7 @@ package ru.itmo.soa.mainservice.exceptions;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import jakarta.validation.ConstraintViolationException;
 //import org.springframework.dao.DataIntegrityViolationException;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,6 +36,15 @@ public class GlobalExceptionHandler {
         });
 
         response.put("message", errors);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, Object>> handleValidationException(ValidationException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", HttpStatus.BAD_REQUEST.value());
+        response.put("message", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -93,14 +103,19 @@ public class GlobalExceptionHandler {
         Map<String, Object> response = new HashMap<>();
         response.put("code", HttpStatus.BAD_REQUEST.value());
 
-        Map<String, String> errors = new HashMap<>();
-        ex.getConstraintViolations().forEach(violation -> {
-            String fieldName = violation.getPropertyPath().toString();
-            String errorMessage = violation.getMessage();
-            errors.put(fieldName, errorMessage);
-        });
+        String message = ex.getMessage();
+        String errorMessage;
 
-        response.put("message", errors);
+        // Обработка ошибки нарушения уникальности
+        if (message.contains("duplicate key value")) {
+            // Извлекаем название поля, которое вызвало ошибку
+            String fieldName = extractFieldNameFromMessage(message);
+            errorMessage = "Duplicate value for field '" + fieldName + "'. Please use a unique value.";
+        } else {
+            errorMessage = "A database error occurred: " + message;
+        }
+
+        response.put("message", errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -143,7 +158,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("code", HttpStatus.BAD_REQUEST.value());
-        response.put("message", "An error occurred: " + ex.getMessage());
+
+        // Обработка детализированных сообщений из saveBand
+        String message = ex.getMessage();
+        if (message != null && message.contains("Duplicate entry for field")) {
+            response.put("message", message);
+        } else {
+            response.put("message", "An error occurred: " + message);
+        }
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -168,10 +191,6 @@ public class GlobalExceptionHandler {
                     }
                 }
             }
-        }
-
-        if (message.contains("numeric field overflow")) {
-            return "unknown_field";
         }
 
         return "unknown_field";

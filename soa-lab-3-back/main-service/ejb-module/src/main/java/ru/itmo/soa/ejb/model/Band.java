@@ -1,6 +1,7 @@
 package ru.itmo.soa.ejb.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Band {
+public class Band implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1, message = "Id must be greater than or equal to 1")
@@ -28,7 +30,7 @@ public class Band {
     private String name;
 
     @NotNull(message = "Coordinates are required")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Coordinates coordinates;
 
     @Column(nullable = false, updatable = false)
@@ -52,6 +54,7 @@ public class Band {
     private Person frontMan;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Single> singles;
 
     @PrePersist

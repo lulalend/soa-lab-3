@@ -10,6 +10,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import org.hibernate.Hibernate;
 import ru.itmo.soa.ejb.model.Band;
 import ru.itmo.soa.ejb.model.MusicGenre;
 
@@ -33,6 +34,9 @@ public class BandRepositoryEJB {
 
     public Optional<Band> findById(Long id) {
         Band band = entityManager.find(Band.class, id);
+        if (band != null) {
+            Hibernate.initialize(band.getSingles()); // Инициализируем ленивые коллекции
+        }
         return Optional.ofNullable(band);
     }
 
@@ -50,8 +54,10 @@ public class BandRepositoryEJB {
     }
 
     public List<Band> findAllSortedByGenreAscNameAsc() {
-        return entityManager.createQuery("SELECT b FROM Band b ORDER BY b.genre ASC, b.name ASC", Band.class)
+        List<Band> bands = entityManager.createQuery("SELECT b FROM Band b ORDER BY b.genre ASC, b.name ASC", Band.class)
                 .getResultList();
+        bands.forEach(band -> Hibernate.initialize(band.getSingles())); // Предзагрузка коллекций
+        return bands;
     }
 
     public int count(String[] filters) {
@@ -105,9 +111,12 @@ public class BandRepositoryEJB {
         query.select(root).where(filteredQuery.getRestriction());
 
         // Выполнение запроса с пагинацией
-        return entityManager.createQuery(query)
+        List<Band> bands = entityManager.createQuery(query)
                 .setFirstResult((page - 1) * size)
                 .setMaxResults(size)
                 .getResultList();
+
+        bands.forEach(band -> Hibernate.initialize(band.getSingles())); // Предзагрузка ленивых коллекций
+        return bands;
     }
 }

@@ -10,7 +10,9 @@ import ru.itmo.soa.ejb.model.Single;
 import ru.itmo.soa.ejb.model.dto.BandUpdate;
 import ru.itmo.soa.ejb.model.dto.BandsInfoResponse;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.DoubleToIntFunction;
 
 @Service
 public class BandService {
@@ -22,7 +24,6 @@ public class BandService {
 
 
     public Band save(Band band) {
-        System.out.println(bandServiceEJB.saveBand(band));
         return bandServiceEJB.saveBand(band);
     }
 
@@ -31,6 +32,7 @@ public class BandService {
     }
 
     public Band updateBand(BandUpdate band, Long id) {
+        System.out.println(bandServiceEJB.updateBand(band, id));
         return bandServiceEJB.updateBand(band, id);
     }
 
@@ -47,7 +49,6 @@ public class BandService {
     }
 
     public BandsInfoResponse getBands(String[] sort, String[] filter, int page, int size) {
-        System.out.println(bandServiceEJB.getBands(sort, filter, page, size));
         return bandServiceEJB.getBands(sort, filter, page, size);
     }
 

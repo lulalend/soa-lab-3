@@ -3,6 +3,7 @@ package ru.itmo.soa.ejb.services;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.repositories.BandRepositoryEJB;
 import ru.itmo.soa.ejb.exceptions.ResourceNotFoundException;
@@ -15,9 +16,7 @@ import ru.itmo.soa.ejb.model.dto.BandsInfoResponse;
 
 
 import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Stateless
 @Pool("ejb-band-pool")
@@ -33,13 +32,26 @@ public class BandServiceEJB implements BandServiceIEJB {
     private PersonServiceEJB personService;
 
     public Band saveBand(Band band) {
-        band.setCreationDate(OffsetDateTime.now());
-        Band newBand = bandRepository.create(band);
+        try {
+            band.setCreationDate(OffsetDateTime.now());
+            Band newBand = bandRepository.create(band);
 
-        if (band.getFrontMan() != null) {
-            newBand.getFrontMan().setBandID(newBand.getId());
+            if (band.getFrontMan() != null) {
+                newBand.getFrontMan().setBandID(newBand.getId());
+            }
+            return bandRepository.update(newBand);
+        } catch (Exception e) {
+            String errorMessage = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+
+            if (errorMessage != null && errorMessage.contains("duplicate key value")) {
+                String fieldName = extractFieldNameFromMessage(errorMessage);
+                String value = extractValueFromMessage(errorMessage);
+                throw new RuntimeException("Duplicate entry for field '" + fieldName + "': " + value, e);
+            }
+
+            // Для всех остальных ошибок
+            throw new RuntimeException("An unexpected error occurred: " + errorMessage, e);
         }
-        return bandRepository.update(newBand);
     }
 
     public BandsInfoResponse getBands(String[] sort, String[] filter, int page, int size) {
@@ -98,34 +110,38 @@ public class BandServiceEJB implements BandServiceIEJB {
 
     @Transactional
     public Band updateBand(BandUpdate bandUpdate, Long id) {
-        Band existingBand = bandRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Band not found with id: " + id));
+        try {
+            Band existingBand = bandRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Band not found with id: " + id));
 
-        if (bandUpdate.getName() != null) {
-            existingBand.setName(bandUpdate.getName());
-        }
-        if (bandUpdate.getCoordinates() != null) {
-            existingBand.setCoordinates(bandUpdate.getCoordinates());
-        }
-        if (bandUpdate.getNumberOfParticipants() != null) {
-            existingBand.setNumberOfParticipants(bandUpdate.getNumberOfParticipants());
-        }
-        if (bandUpdate.getDescription() != null) {
-            existingBand.setDescription(bandUpdate.getDescription());
-        }
-        if (bandUpdate.getGenre() != null) {
-            existingBand.setGenre(bandUpdate.getGenre());
-        }
-        if (bandUpdate.getFrontMan() != null) {
-            personService.createOrUpdatePerson(bandUpdate.getFrontMan());
-        }
-        if (bandUpdate.getSingles() != null) {
-            for (Single single : bandUpdate.getSingles()) {
-                singleService.createOrUpdateSingle(single);
+            if (bandUpdate.getName() != null) {
+                existingBand.setName(bandUpdate.getName());
             }
-        }
+            if (bandUpdate.getCoordinates() != null) {
+                existingBand.setCoordinates(bandUpdate.getCoordinates());
+            }
+            if (bandUpdate.getNumberOfParticipants() != null) {
+                existingBand.setNumberOfParticipants(bandUpdate.getNumberOfParticipants());
+            }
+            if (bandUpdate.getDescription() != null) {
+                existingBand.setDescription(bandUpdate.getDescription());
+            }
+            if (bandUpdate.getGenre() != null) {
+                existingBand.setGenre(bandUpdate.getGenre());
+            }
+            if (bandUpdate.getFrontMan() != null) {
+                personService.createOrUpdatePerson(bandUpdate.getFrontMan());
+            }
+            if (bandUpdate.getSingles() != null) {
+                for (Single single : bandUpdate.getSingles()) {
+                    singleService.createOrUpdateSingle(single);
+                }
+            }
 
-        return bandRepository.update(existingBand);
+            return bandRepository.update(existingBand);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating band: " + e.getMessage(), e);
+        }
     }
 
     public List<MusicGenre> getAllGenres() {
@@ -193,4 +209,24 @@ public class BandServiceEJB implements BandServiceIEJB {
 
         return newPerson;
     }
+
+    private String extractFieldNameFromMessage(String message) {
+        int startIndex = message.indexOf("(");
+        int endIndex = message.indexOf(")");
+        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+            return message.substring(startIndex + 1, endIndex);
+        }
+        return "unknown_field";
+    }
+
+    private String extractValueFromMessage(String message) {
+        int startIndex = message.indexOf("=(");
+        int endIndex = message.indexOf(")", startIndex);
+        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+            return message.substring(startIndex + 2, endIndex);
+        }
+        return "unknown_value";
+    }
 }
+
+
