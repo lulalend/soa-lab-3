@@ -16,6 +16,15 @@ spring:
   jndi:
     enabled: true
     name: java:global/ejb-module-0.0.1-SNAPSHOT/BandServiceEJB!ru.itmo.soa.ejb.services.BandServiceIEJB
+  config:
+    import: "optional:consul:"
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+#  boot:admin.client.management-url=http://[имя-сервиса-в-докере]:[порт-сервиса-в-докере]
+#  spring.cloud.consul.discovery.ipAddress=[имя-сервиса-в-докере]
+#  spring.cloud.consul.discovery.preferIpAddress=true
 
 server:
   port: 1111
@@ -25,3 +34,13 @@ server:
     key-store-password: DashaYana
     key-store-type: PKCS12
     key-alias: main-server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    port: 2222
+    ssl:
+      enabled: false

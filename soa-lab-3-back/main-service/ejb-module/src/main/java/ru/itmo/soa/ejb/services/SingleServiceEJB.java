@@ -2,6 +2,7 @@ package ru.itmo.soa.ejb.services;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.repositories.SingleRepositoryEJB;
 import ru.itmo.soa.ejb.exceptions.ResourceNotFoundException;
 import ru.itmo.soa.ejb.model.Single;
@@ -9,6 +10,7 @@ import ru.itmo.soa.ejb.model.Single;
 import java.util.Optional;
 
 @Stateless
+@Pool("ejb-band-pool")
 public class SingleServiceEJB {
     @Inject
     private SingleRepositoryEJB singleRepository;

@@ -7,12 +7,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
+import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.model.Person;
 
 import java.util.Optional;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@Pool("ejb-band-pool")
 public class PersonRepositoryEJB {
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;

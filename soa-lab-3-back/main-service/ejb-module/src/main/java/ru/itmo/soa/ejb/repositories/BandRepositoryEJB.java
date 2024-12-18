@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Hibernate;
+import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.model.Band;
 import ru.itmo.soa.ejb.model.MusicGenre;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@Pool("ejb-band-pool")
 public class BandRepositoryEJB {
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;

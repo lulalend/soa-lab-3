@@ -23,6 +23,15 @@ services:
       - soa-network
     command: ["postgres", "-c", "log_statement=all", "-c", "timezone=UTC"]
 
+  consul:
+   image: consul:1.6.1
+   ports:
+     - "8500:8500"
+   expose:
+       - 8500
+   networks:
+     - soa-network
+
   main-service-ejb:
     build: 
       context: .
@@ -40,6 +49,10 @@ services:
       context: ./soa-lab-3-back/main-service/service
     ports:
       - "1111:1111"
+      - "2222:2222"
+    expose:
+      - 1111
+      - 2222
     environment:
       SERVER_SSL_ENABLED: true
       SERVER_SSL_KEY_STORE: classpath:static/server.keystore.p12
@@ -48,6 +61,7 @@ services:
     depends_on:
       - db
       - main-service-ejb
+      - consul
     networks:
       - soa-network
 

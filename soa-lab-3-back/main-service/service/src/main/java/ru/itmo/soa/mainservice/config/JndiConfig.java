@@ -8,8 +8,8 @@ import javax.naming.NamingException;
 import java.util.Properties;
 
 public class JndiConfig {
-    private static final String WILDFLY_HOST = "localhost";
-//    private static final String WILDFLY_HOST = "soa-lab-3-main-service-ejb-1";
+//    private static final String WILDFLY_HOST = "localhost";
+    private static final String WILDFLY_HOST = "soa-lab-3-main-service-ejb-1";
     private static final int EJB_PORT = 8080;
     private static final String EJB_JNDI_NAME = "ejb:/ejb-module-0.0.1-SNAPSHOT/BandServiceEJB!ru.itmo.soa.ejb.services.BandServiceIEJB";
     private static final Context context;
