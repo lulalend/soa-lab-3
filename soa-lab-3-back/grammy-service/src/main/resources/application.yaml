@@ -11,3 +11,26 @@ trust:
   store:
     url: classpath:static/server.keystore.p12
     password: DashaYana
+
+spring:
+  application:
+    name:
+      grammy-service
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      #        defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-service:8761/eureka/
+
+zuul:
+  routes:
+    band-service:
+      path: /api/v1/grammy/**
+      url: https://main-service:1111/api/v1/bands
+      service-id: grammy-service
+      strip-prefix: false
+  debug:
+    request: true

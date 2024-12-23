@@ -67,36 +67,6 @@ public class BandServiceEJB implements BandServiceIEJB {
         return response;
     }
 
-//    private Sort createSort(String[] sortParams) {
-//        Sort sort = Sort.unsorted();
-//
-//        if (sortParams != null) {
-//            for (String sortParam : sortParams) {
-//                String[] parts = sortParam.split("\\[");
-//
-//                if (parts.length < 1 || parts.length > 2) {
-//                    throw new InvalidParameterException("Invalid sort format: " + sortParam);
-//                }
-//
-//                String property = parts[0].trim();
-//
-//                // По умолчанию - ascending
-//                String direction = (parts.length > 1 && parts[1].endsWith("]"))
-//                        ? parts[1].substring(0, parts[1].length() - 1).trim()
-//                        : "asc";
-//
-//                if (!direction.equalsIgnoreCase("asc") && !direction.equalsIgnoreCase("desc")) {
-//                    throw new InvalidParameterException("Invalid sort direction: " + direction);
-//                }
-//
-//                Sort.Direction dir = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-//                sort = sort.and(Sort.by(dir, property));
-//            }
-//        }
-//
-//        return sort;
-//    }
-
     public Band findById(Long id) {
         return bandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Band with id " + id + " not found"));

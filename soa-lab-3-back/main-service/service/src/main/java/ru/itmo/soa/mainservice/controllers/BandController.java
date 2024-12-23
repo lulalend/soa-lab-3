@@ -37,8 +37,6 @@ public class BandController {
 
         BandsInfoResponse bands = bandService.getBands(sort, filter, page, size);
         return ResponseEntity.ok(bands);
-//        System.out.println("Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        return ResponseEntity.ok("Hello!!!!!!!!!!");
     }
 
     @GetMapping("/{id}")
@@ -76,7 +74,7 @@ public class BandController {
     }
 
 //    Запросы со второго сервера
-    @PostMapping("/{id}/singles")
+    @PostMapping("/{id}/singles/add")
     public ResponseEntity<Band> addSingleToBand(@Valid @PathVariable(value = "id") Long id, @RequestBody Single single) {
         Band updatedBand = bandService.addSingleToBand(id, single);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedBand);
@@ -88,7 +86,7 @@ public class BandController {
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedSingle);
     }
 
-    @PostMapping("/{id}/participants")
+    @PostMapping("/{id}/participants/add")
     public ResponseEntity<Person> addPersonToBand(@Valid @PathVariable(value = "id") Long id, @RequestBody Person person) {
         Person newPerson = bandService.addPersonToBand(id, person);
         return ResponseEntity.status(HttpStatus.CREATED).body(newPerson);

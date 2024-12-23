@@ -13,7 +13,7 @@ import ru.itmo.soa.grammyservice.model.Single;
 @RestController
 @RequestMapping("/api/v1/grammy")
 public class GrammyController {
-    @Autowired
+
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -23,7 +23,7 @@ public class GrammyController {
 
     @PostMapping("/band/{bandId}/singles/add")
     public ResponseEntity<Band> addSingle(@PathVariable(value = "bandId") Long bandId, @RequestBody Single single) {
-        String url = String.format("https://localhost:1111/api/v1/bands/%d/singles", bandId);
+        String url = String.format("https://localhost:1111/api/v1/bands/%d/singles/add", bandId);
         return restTemplate.postForEntity(url, single, Band.class);
     }
 
@@ -35,7 +35,7 @@ public class GrammyController {
 
     @PostMapping("/band/{bandId}/participants/add")
     public ResponseEntity<Person> addParticipant(@PathVariable(value = "bandId") Long bandId, @RequestBody Person participant) {
-        String url = String.format("https://localhost:1111/api/v1/bands/%d/participants", bandId);
+        String url = String.format("https://localhost:1111/api/v1/bands/%d/participants/add", bandId);
         return restTemplate.postForEntity(url, participant, Person.class);
     }
 }
