@@ -22,6 +22,7 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "https://localhost:1112",
                 "http://localhost:1112",
+                "http://gr:1112",
                 "https://se.ifmo.ru/~s335045/.next/server/app/",
                 "https://se.ifmo.ru"
         ));

@@ -154,19 +154,20 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
+    public ResponseEntity<Map<String, Object>> handleEJBClientException(Exception ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put("code", HttpStatus.BAD_REQUEST.value());
-
-        // Обработка детализированных сообщений из saveBand
         String message = ex.getMessage();
-        if (message != null && message.contains("Duplicate entry for field")) {
-            response.put("message", message);
-        } else {
-            response.put("message", "An error occurred: " + message);
+
+        // Проверка на специфическое сообщение, которое соответствует ошибке EJBCLIENT000409
+        if (message != null && message.contains("EJBCLIENT000409: No more destinations are available")) {
+            response.put("code", HttpStatus.SERVICE_UNAVAILABLE.value());
+            response.put("message", "Service unavailable: No more destinations available.");
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         }
 
+        // Если ошибка не связана с EJBCLIENT000409, обрабатываем как обычную ошибку
+        response.put("code", HttpStatus.BAD_REQUEST.value());
+        response.put("message", "An error occurred: " + message);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

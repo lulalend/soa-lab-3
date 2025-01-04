@@ -16,13 +16,13 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceAccessException.class)
-    public ResponseEntity<Map<String, Object>> handleServiceUnavailableException(ResourceAccessException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", HttpStatus.SERVICE_UNAVAILABLE.value());
-        response.put("message", "The service is currently unavailable. Please try again later.");
-        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-    }
+//    @ExceptionHandler(ResourceAccessException.class)
+//    public ResponseEntity<Map<String, Object>> handleServiceUnavailableException(ResourceAccessException ex) {
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("code", HttpStatus.SERVICE_UNAVAILABLE.value());
+//        response.put("message", "The service is currently unavailable. Please try again later.");
+//        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
+//    }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, Object>> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
@@ -46,6 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
         Map<String, Object> response = new HashMap<>();
+        ex.printStackTrace();
         response.put("code", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("message", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

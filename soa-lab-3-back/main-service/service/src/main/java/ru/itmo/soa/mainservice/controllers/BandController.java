@@ -13,22 +13,24 @@ import ru.itmo.soa.ejb.model.dto.BandUpdate;
 import ru.itmo.soa.ejb.model.dto.BandsInfoResponse;
 import ru.itmo.soa.mainservice.services.BandService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/bands")
+@RequestMapping("/api/v1")
 public class BandController {
 
     @Autowired
     private BandService bandService;
 
-    @PostMapping
+    @PostMapping("/bands")
     public ResponseEntity<Band> createBand(@Valid @RequestBody Band band) {
         Band createdBand = bandService.save(band);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBand);
     }
 
-    @GetMapping
+    @GetMapping("/bands")
     public ResponseEntity<BandsInfoResponse> getBands(
             @RequestParam(required = false, value = "sort") String[] sort,
             @RequestParam(required = false, value = "filter") String[] filter,
@@ -39,54 +41,59 @@ public class BandController {
         return ResponseEntity.ok(bands);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/bands/{id}")
     public Band getBandById(@Valid @PathVariable(value = "id") Long id) {
         return bandService.getBandById(id);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/bands/{id}")
     public ResponseEntity<Band> updateBand(@Valid @PathVariable(value = "id") Long id, @RequestBody BandUpdate bandUpdate) {
         Band updatedBand = bandService.updateBand(bandUpdate, id);
         return ResponseEntity.ok(updatedBand);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/bands/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBandById(@Valid @PathVariable(value = "id") Long id) {
         bandService.deleteById(id);
     }
 
-    @GetMapping("/genre")
+    @GetMapping("/bands/genre")
     public ResponseEntity<List<MusicGenre>> getAllGenres() {
         return ResponseEntity.ok(bandService.getAllGenres());
     }
 
-    @DeleteMapping("/genre/{genre}")
+    @DeleteMapping("/bands/genre/{genre}")
     public ResponseEntity<Void> deleteBandsByGenre(@Valid @PathVariable(value = "genre") String genre) {
         bandService.deleteByGenre(genre);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/genre/min")
+    @GetMapping("/bands/genre/min")
     public ResponseEntity<Band> getGroupWithMinGenre() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = now.format(formatter);
+
+        System.out.println("Запрос пришёл в " + formattedDate);
         Band band = bandService.getGroupWithMinGenre();
         return ResponseEntity.ok(band);
     }
 
 //    Запросы со второго сервера
-    @PostMapping("/{id}/singles/add")
+    @PostMapping("/band/{id}/singles/add")
     public ResponseEntity<Band> addSingleToBand(@Valid @PathVariable(value = "id") Long id, @RequestBody Single single) {
         Band updatedBand = bandService.addSingleToBand(id, single);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedBand);
     }
 
-    @PutMapping("/{bandId}/singles/{singleId}")
+    @PutMapping("/band/{bandId}/singles/{singleId}")
     public ResponseEntity<Single> changeSingle(@Valid @PathVariable(value = "bandId") Long bandId, @PathVariable(value = "singleId") Long singleId, @RequestBody Single single) {
         Single updatedSingle = bandService.changeSingle(bandId, singleId, single);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedSingle);
     }
 
-    @PostMapping("/{id}/participants/add")
+    @PostMapping("/band/{id}/participants/add")
     public ResponseEntity<Person> addPersonToBand(@Valid @PathVariable(value = "id") Long id, @RequestBody Person person) {
         Person newPerson = bandService.addPersonToBand(id, person);
         return ResponseEntity.status(HttpStatus.CREATED).body(newPerson);
