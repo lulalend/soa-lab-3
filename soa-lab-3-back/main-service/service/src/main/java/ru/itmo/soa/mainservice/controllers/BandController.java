@@ -71,11 +71,6 @@ public class BandController {
 
     @GetMapping("/bands/genre/min")
     public ResponseEntity<Band> getGroupWithMinGenre() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = now.format(formatter);
-
-        System.out.println("Запрос пришёл в " + formattedDate);
         Band band = bandService.getGroupWithMinGenre();
         return ResponseEntity.ok(band);
     }
@@ -83,6 +78,11 @@ public class BandController {
 //    Запросы со второго сервера
     @PostMapping("/band/{id}/singles/add")
     public ResponseEntity<Band> addSingleToBand(@Valid @PathVariable(value = "id") Long id, @RequestBody Single single) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = now.format(formatter);
+        System.out.println("Запрос пришёл в " + formattedDate);
+
         Band updatedBand = bandService.addSingleToBand(id, single);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedBand);
     }

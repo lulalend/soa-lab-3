@@ -28,7 +28,8 @@ eureka:
 
 main-service:
   ribbon:
-    listOfServers: https://main-service-1:1111, https://main-service-2:1111
+    listOfServers: main-service-1:1111, main-service-2:1111
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
     eureka:
       enabled: false
     ServerListRefreshInterval: 100

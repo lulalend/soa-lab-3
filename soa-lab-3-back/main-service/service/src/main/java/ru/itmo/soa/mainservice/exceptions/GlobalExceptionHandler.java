@@ -165,6 +165,13 @@ public class GlobalExceptionHandler {
             return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         }
 
+        if (message != null && message.contains("duplicate key value")) {
+            String value = extractValueFromMessage(message);
+            response.put("code", HttpStatus.BAD_REQUEST.value());
+            response.put("message", "Duplicate value: " + value);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
         // Если ошибка не связана с EJBCLIENT000409, обрабатываем как обычную ошибку
         response.put("code", HttpStatus.BAD_REQUEST.value());
         response.put("message", "An error occurred: " + message);
@@ -195,5 +202,14 @@ public class GlobalExceptionHandler {
         }
 
         return "unknown_field";
+    }
+
+    private String extractValueFromMessage(String message) {
+        int startIndex = message.indexOf("=(");
+        int endIndex = message.indexOf(")", startIndex);
+        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+            return message.substring(startIndex + 2, endIndex);
+        }
+        return "unknown_value";
     }
 }

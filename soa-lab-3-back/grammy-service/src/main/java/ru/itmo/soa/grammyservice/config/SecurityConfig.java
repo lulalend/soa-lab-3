@@ -1,4 +1,4 @@
-package ru.itmo.soa.grammyservice.security;
+package ru.itmo.soa.grammyservice.config;
 
 import java.util.List;
 
