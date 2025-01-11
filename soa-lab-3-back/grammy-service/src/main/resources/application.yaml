@@ -45,15 +45,15 @@ ribbon:
   eureka:
     enabled: false
 
-#zuul:
-#  ignored-services: "*"
-#  ribbon-isolation: thread
-#  retryable: true
-#  routes:
-#    main-service:
-#      path: '/api/v1/grammy/**'
-#      serviceId: main-service
-#      stripPrefix: false
-#      retryable: true
-#    retryable: true
+zuul:
+  ignored-services: "*"
+  ribbon-isolation: thread
+  retryable: true
+  routes:
+    main-service:
+      path: '/api/v1/grammy/**'
+      serviceId: main-service
+      stripPrefix: false
+      retryable: true
+    retryable: true
 

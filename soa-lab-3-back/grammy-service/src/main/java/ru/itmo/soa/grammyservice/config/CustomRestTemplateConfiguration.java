@@ -33,7 +33,7 @@ public class CustomRestTemplateConfiguration {
     private String trustStorePassword;
 
     @Bean
-//    @LoadBalanced
+    @LoadBalanced
     public RestTemplate restTemplate() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, MalformedURLException, IOException {
 
         SSLContext sslContext = new SSLContextBuilder()

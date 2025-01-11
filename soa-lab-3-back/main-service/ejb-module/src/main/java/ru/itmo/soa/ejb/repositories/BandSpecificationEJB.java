@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.jboss.ejb3.annotation.Pool;
 import ru.itmo.soa.ejb.model.Band;
 
 public class BandSpecificationEJB {

@@ -1,6 +1,7 @@
 package ru.itmo.soa.ejb.repositories;
 
 import jakarta.ejb.Stateful;
+import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.EntityManager;
